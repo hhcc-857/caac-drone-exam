@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuthStore } from './store/authStore';
 import { Header } from './components/Header';
 import { LoginPage } from './components/LoginPage';
@@ -24,7 +24,7 @@ const App: React.FC = () => {
   const currentUser = useAuthStore((s) => s.currentUser);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="app-container">
         {currentUser && <Header />}
         <main className={`main-content ${!currentUser ? 'login-container' : ''}`}>
@@ -92,7 +92,7 @@ const App: React.FC = () => {
           </Routes>
         </main>
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

@@ -133,7 +133,7 @@ export const useAuthStore = create<AuthState>()(
         const userToDelete = users.find((u) => u.id === userId);
         if (!userToDelete || userToDelete.role === 'admin') return false;
         
-        // 不能删除自己（虽然普通用户不应该有删除权限，但以防万一）
+        // 不能删除自己
         if (currentUser?.id === userId) return false;
         
         // 删除用户及其相关记录
@@ -147,20 +147,13 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: 'caac-auth-storage',
-      version: 2, // 版本升级，触发迁移
-      migrate: (persisted: unknown, version: number) => {
-        // 如果是旧版本（version < 2），确保默认管理员存在
-        if (version < 2) {
-          const state = persisted as Partial<AuthState>;
-          // 确保用户列表包含默认管理员
-          if (!state.users?.some(u => u.id === 'admin-001')) {
-            return {
-              ...state,
-              users: [DEFAULT_ADMIN, ...(state.users || [])],
-            };
+      // 确保默认管理员始终存在
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          if (!state.users.some(u => u.id === 'admin-001')) {
+            state.users = [DEFAULT_ADMIN, ...state.users];
           }
         }
-        return persisted;
       },
     }
   )

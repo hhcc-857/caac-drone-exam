@@ -2,7 +2,7 @@
   "name": "caac-drone-exam",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://26916.github.io/caac-drone-exam",
+  "homepage": "https://hhcc-857.github.io/caac-drone-exam",
   "type": "module",
   "scripts": {
     "dev": "vite",
